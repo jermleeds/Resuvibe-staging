@@ -14,11 +14,13 @@ import { ResumeTab } from "@/components/tabs/ResumeTab";
 import { CoverLetterTab } from "@/components/tabs/CoverLetterTab";
 import { JDAnalysisTab } from "@/components/tabs/JDAnalysisTab";
 import { DetailsTab } from "@/components/tabs/DetailsTab";
+import { InterviewPrepTab } from "@/components/tabs/InterviewPrepTab";
+import { InterviewPrepTabTrigger } from "@/components/tabs/InterviewPrepTabTrigger";
 import DynamicMaterialsSection from "@/components/DynamicMaterialsSection";
 import { PageShell } from "@/components/PageShell";
 
 /** Valid tab slugs — must match the route segment and the Tabs value prop. */
-const VALID_TABS = ["resume", "cover-letter", "jd-analysis", "materials", "details"] as const;
+const VALID_TABS = ["resume", "cover-letter", "jd-analysis", "materials", "details", "interview-prep"] as const;
 type TabSlug = typeof VALID_TABS[number];
 
 /**
@@ -317,6 +319,9 @@ const ApplicationDetail = () => {
                 </TabsTrigger>
               )}
               <TabsTrigger value="details">Details</TabsTrigger>
+              {/* Interview Prep: always visible, inactive until a resume exists
+                  (guarantees JD + tailored resume for question grounding). */}
+              <InterviewPrepTabTrigger app={app} />
             </TabsList>
             <div id="resume-tab-actions" className="flex items-center gap-2" />
           </div>
@@ -396,6 +401,10 @@ const ApplicationDetail = () => {
               editingMeta={editingMeta} setEditingMeta={setEditingMeta}
               saving={saving} saveField={saveField}
             />
+          </TabsContent>
+
+          <TabsContent value="interview-prep" className="space-y-4">
+            <InterviewPrepTab applicationId={id!} app={app} />
           </TabsContent>
         </Tabs>
       </div>
